@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#b99add">
+<title>Felices 7 meses amor de mi vida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Literata:ital,wght@0,400;0,500;1,400&family=Caveat:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-a:#eee5fa;
+    --bg-b:#b99add;
+    --bg-c:#76518f;
+
+    --ink:#352044;
+    --ink-soft:#654b75;
+
+    --gold:#8960a8;
+    --gold-light:#c5a5e3;
+
+    --rose:#9564b5;
+
+    --paper:#faf5ff;
+    --paper-edge:#e2d1f0;
+
+    --card:#fcf8ff;
+    --line:rgba(53,32,68,0.14);
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    font-family:'Literata',serif;
+    color:var(--ink);
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(255,255,255,0.35), transparent 45%),
+      linear-gradient(155deg,var(--bg-a) 0%,var(--bg-b) 55%,var(--bg-c) 100%);
+  }
+
+  body{min-height:100vh;}
+
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:6vh 5vw;
+  }
+
+  .header{
+    text-align:center;
+    margin-bottom:clamp(28px,5vh,44px);
+  }
+
+  .eyebrow{
+    font-family:'Jost',sans-serif;
+    font-size:11px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:10px;
+  }
+
+  .title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(26px,5vw,42px);
+    margin:0 0 10px;
+  }
+
+  .subtitle{
+    max-width:420px;
+    margin:0 auto;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+
+  .envelopes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(90px,1fr));
+    gap:clamp(12px,2.4vw,22px);
+    max-width:760px;
+    width:100%;
+  }
+
+  .env-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    transition:transform 0.25s,opacity 0.25s;
+    color:var(--ink);
+    font:inherit;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .env-btn:hover{transform:translateY(-4px);}
+
+  .env-btn:focus-visible,
+  .final-btn:focus-visible,
+  .close-btn:focus-visible{
+    outline:3px solid var(--gold);
+    outline-offset:5px;
+  }
+
+  .env-btn.opened{opacity:0.58;}
+
+  .env-svg{
+    width:100%;
+    max-width:110px;
+    aspect-ratio:3/2;
+    filter:drop-shadow(0 10px 18px rgba(53,32,68,0.25));
+  }
+
+  .env-label{
+    font-family:'Jost',sans-serif;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+  }
+
+  .env-label strong{
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  .seal-pulse{
+    animation:pulse 2.4s ease-in-out infinite;
+    transform-origin:center;
+    transform-box:fill-box;
+  }
+
+  @keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+  }
+
+  .env-btn.opened .seal-pulse{animation:none;}
+
+  .final-trigger-wrap{
+    margin-top:24px;
+    display:none;
+    text-align:center;
+  }
+
+  .final-trigger-wrap.show{
+    display:block;
+    animation:fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .final-btn{
+    background:linear-gradient(135deg,var(--rose) 0%,var(--ink) 100%);
+    color:var(--paper);
+    border:none;
+    padding:14px 28px;
+    border-radius:30px;
+    font-family:'Fraunces',serif;
+    font-size:16px;
+    font-style:italic;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(53,32,68,0.3);
+    transition:transform 0.25s,box-shadow 0.25s;
+  }
+
+  .final-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(53,32,68,0.4);
+  }
+
+  .progress-note{
+    margin-top:28px;
+    font-family:'Jost',sans-serif;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  /* Ventana de las cartas */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    background:rgba(35,17,48,0.58);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:6vh 5vw;
+    opacity:0;
+  }
+
+  .modal-overlay.show{
+    display:flex;
+    opacity:1;
+    animation:overlayIn 0.25s ease forwards;
+  }
+
+  @keyframes overlayIn{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+
+  .letter-wrap{
+    position:relative;
+    width:100%;
+    max-width:480px;
+  }
+
+  .letter-card{
+    width:100%;
+    max-height:80vh;
+    overflow-y:auto;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,0.6),transparent 25%),
+      var(--paper);
+    border:1px solid var(--paper-edge);
+    border-radius:14px;
+    box-shadow:0 40px 80px -24px rgba(35,17,48,0.5);
+    padding:clamp(26px,5vw,42px);
+    transform:translateY(16px) scale(0.97);
+    animation:cardIn 0.4s cubic-bezier(.22,1.3,.4,1) forwards;
+    overscroll-behavior:contain;
+  }
+
+  @keyframes cardIn{
+    to{transform:translateY(0) scale(1);}
+  }
+
+  .letter-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--gold);
+    font-size:34px;
+    line-height:1;
+    margin-bottom:6px;
+  }
+
+  .letter-title{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(19px,3.4vw,24px);
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+
+  .letter-rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--line),transparent);
+    margin-bottom:16px;
+  }
+
+  .letter-body p{
+    font-size:14.5px;
+    line-height:1.8;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+    white-space:normal;
+  }
+
+  .letter-body p::first-letter{
+    font-family:'Fraunces',serif;
+    font-size:2.1em;
+    font-style:italic;
+    color:var(--gold);
+    float:left;
+    line-height:0.8;
+    padding-right:6px;
+    padding-top:3px;
+  }
+
+  .letter-sign{
+    font-family:'Caveat',cursive;
+    font-size:20px;
+    color:var(--rose);
+    margin-top:16px;
+    text-align:right;
+  }
+
+  .close-btn{
+    position:absolute;
+    top:-12px;
+    right:-12px;
+    z-index:2;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    cursor:pointer;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.2s,color 0.2s;
+    box-shadow:0 3px 10px rgba(35,17,48,0.15);
+  }
+
+  .close-btn:hover{
+    background:#fff;
+    color:var(--rose);
+  }
+
+  .close-btn svg{
+    width:13px;
+    height:13px;
+  }
+
+  @media(max-width:480px){
+    .wrap{padding:5vh 6vw;}
+
+    .envelopes{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px 12px;
+    }
+
+    .env-svg{max-width:100px;}
+
+    .modal-overlay{padding:5vh 5vw;}
+
+    .letter-card{max-height:84vh;}
+
+    .close-btn{
+      top:-10px;
+      right:-6px;
+    }
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:0.01ms !important;
+      animation-iteration-count:1 !important;
+      scroll-behavior:auto !important;
+      transition-duration:0.01ms !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<main class="wrap">
+  <header class="header">
+    <div class="eyebrow">Para mi amor</div>
+    <h1 class="title">Un sobre por cada mes</h1>
+    <p class="subtitle">Siete meses, siete sobres. Ábrelos en el orden que quieras: cada uno guarda una parte de todo lo bonito que quiero decirte.</p>
+  </header>
+
+  <section class="envelopes" id="envelopes" aria-label="Siete sobres de amor"></section>
+
+  <p class="progress-note" id="progressNote" aria-live="polite">0 de 7 sobres abiertos</p>
+
+  <div class="final-trigger-wrap" id="finalTriggerWrap">
+    <button class="final-btn" id="finalBtn" type="button">💌 Abrir nuestro último sobre 💌</button>
+  </div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="letterTitle" aria-hidden="true">
+  <div class="letter-wrap">
+    <button class="close-btn" id="closeBtn" type="button" aria-label="Cerrar carta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <article class="letter-card" id="letterCard">
+      <div class="letter-num" id="letterNum"></div>
+      <h2 class="letter-title" id="letterTitle"></h2>
+      <div class="letter-rule"></div>
+      <div class="letter-body" id="letterBody"></div>
+      <p class="letter-sign" id="letterSign">con todo mi amor</p>
+    </article>
+  </div>
+</div>
+
+<script>
+const months = [
+  {
+    title: 'Lo bonito de encontrarte',
+    text: "Entre tantas personas que existen en este mundo, qué bonito fue coincidir contigo. No sé si fue el destino, la casualidad o simplemente la vida haciendo de las suyas, pero agradezco muchísimo que nuestros caminos se hayan cruzado. Desde que llegaste, tengo a alguien con quien compartir mis pensamientos, mis días y esas pequeñas cosas que parecen insignificantes, pero que se vuelven especiales cuando puedo contártelas a ti. Me gusta que seas tú la persona con la que quiero compartir todo eso."
+  },
+  {
+    title: 'Mis momentos favoritos',
+    text: "A veces pienso que la felicidad no siempre llega en forma de grandes acontecimientos. A veces está en una conversación contigo, en una risa inesperada, en un mensaje tuyo que me cambia el ánimo o en saber que, aunque estemos ocupados, seguimos encontrando un espacio para nosotros. Esas pequeñas cosas se han convertido en algunos de mis momentos favoritos. Quizá no siempre te lo diga, pero hay muchas cosas de mis días que se vuelven más bonitas simplemente porque tú formas parte de ellos."
+  },
+  {
+    title: 'Lo que admiro de ti',
+    text: "Hay tantas cosas de ti que me gustaría que pudieras ver con los mismos ojos con los que yo te veo. Admiro tu manera de ser, tus ocurrencias, tu forma de expresar lo que sientes y todas esas pequeñas características que te hacen ser tú. Me gusta descubrir nuevas cosas de ti, incluso aquellas que quizá consideras demasiado simples para mencionar. Quiero que nunca sientas que tienes que convertirte en alguien diferente para merecer amor. Me enamora conocerte tal como eres y seguir descubriendo a la persona tan especial que tengo a mi lado."
+  },
+  {
+    title: 'Elegirte cada día',
+    text: "Amarte no significa que todos los días serán sencillos, sino que quiero aprender a cuidar lo nuestro también cuando las cosas se compliquen. Quiero escucharte mejor, comprender lo que sientes y aprender de mis errores en lugar de repetirlos. No quiero que mis palabras bonitas se queden solamente en promesas; quiero que puedas reconocer mi amor en mis acciones, en mi paciencia y en la manera en que te trato. Quiero que estar conmigo sea algo que te dé tranquilidad, confianza y la libertad de ser tú misma."
+  },
+  {
+    title: 'Todos nuestros sueños',
+    text: "Me emociona imaginar todas las cosas que todavía nos faltan por vivir. Los lugares que podemos conocer, las fotografías que algún día miraremos recordando estos momentos, las canciones que terminarán teniendo un significado especial para nosotros y todas las historias que aún no hemos vivido. También quiero verte cumplir tus propios sueños, celebrar tus logros y acompañarte mientras descubres todo lo que eres capaz de hacer. Quiero que construyamos recuerdos hermosos, sin dejar de crecer como personas y de apoyarnos mutuamente."
+  },
+  {
+    title: 'Mi lugar favorito',
+    text: "Si tuviera que describir lo que quiero sentir contigo, diría que quiero sentir esa tranquilidad de poder ser yo mismo, de hablarte con sinceridad y de saber que podemos escucharnos incluso cuando no pensamos igual. Quiero que podamos reírnos por tonterías, contarnos nuestros miedos, celebrar las buenas noticias y encontrar consuelo en los días complicados. No necesito que nuestra historia se parezca a la de nadie más. Quiero que construyamos una que tenga nuestras bromas, nuestras costumbres, nuestras canciones y esa manera tan nuestra de querernos."
+  },
+  {
+    title: 'Mi promesa para nosotros',
+    text: "En estos siete meses he encontrado muchas razones para seguir ilusionándome con nosotros, y quiero que las que vengan sean todavía más bonitas. No puedo prometerte que siempre sabré qué decir ni que nunca cometeré errores, pero sí quiero comprometerme a escucharte, hablarte con cariño, reconocer cuando me equivoque y demostrarte con hechos lo importante que eres para mí. Quiero cuidar tu corazón sin olvidar que tú también mereces cuidarte a ti misma. Gracias por compartir estos meses conmigo, por las experiencias que ya tenemos y por todo lo que todavía podemos construir juntos. Feliz séptimo mes, mi amor."
+  }
+];
+
+/* Carta completa para la sorpresa final */
+const fullText = [
+  "Amor mío,<br>Si pudiera pedir algo para nosotros, pediría que nunca nos falte la manera de volver a hablarnos bonito. Porque la vida puede cansarnos, cambiarnos el ánimo, llenarnos de pendientes y ponernos pruebas que no estaban en los planes; pero mientras podamos mirarnos con respeto, pedir perdón sin orgullo y recordar que estamos del mismo lado, todavía tendremos mucho por cuidar.",
+
+  "Me gusta pensar en un amor donde no tengamos que ser perfectos para quedarnos, donde podamos decir “hoy no estoy bien” sin miedo a perder ternura, donde el cansancio no nos vuelva extraños y donde un abrazo siga siendo una forma de encontrarnos. Contigo quiero eso: una vida real, con días buenos y días difíciles, pero con la decisión tranquila de seguir construyendo algo que valga la pena.<br>Te amo.",
+
+  "¿Que si quiero todo contigo?<br>Quiero ser feliz a tu lado, quiero verte sonreír cada día, agarrarte de la mano mientras caminamos, quiero estar en cada meta que logres y en cada paso de superación que tengas. Pero sobre todo, quiero estar cuando te sientas mal, cuando percibas que ya no puedes más, cuando quieras rendirte, ahí quiero estar, para abrazarte fuerte mientras te consuelo y te digo que eres fuerte y que si te lo dispones puedes con el mundo entero.",
+
+  "No todo será perfecto, pero de eso se trata, de ser perfectamente imperfectos, de amar nuestras locuras, de reírnos hasta no poder más, de discutir para luego reconciliarnos como niños enamorados, de secarnos las lágrimas mutuamente, pero sobre todo, de estar ahí el uno para el otro."
+];
+
+const roman = ['I','II','III','IV','V','VI','VII'];
+
+function envelopeSVG(n){
+  return `<svg class="env-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="4" y="8" width="112" height="68" rx="6" fill="#faf5ff" stroke="#c5a5e3" stroke-width="1.5"/>
+    <path d="M4 14 L60 54 L116 14" fill="none" stroke="#c5a5e3" stroke-width="1.5"/>
+    <circle class="seal-pulse" cx="60" cy="40" r="15" fill="#9564b5"/>
+    <text x="60" y="45" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="600" font-size="15" fill="#faf5ff">${n}</text>
+  </svg>`;
+}
+
+const envelopesWrap = document.getElementById('envelopes');
+const finalTriggerWrap = document.getElementById('finalTriggerWrap');
+const finalBtn = document.getElementById('finalBtn');
+const overlay = document.getElementById('modalOverlay');
+const letterNum = document.getElementById('letterNum');
+const letterTitle = document.getElementById('letterTitle');
+const letterBody = document.getElementById('letterBody');
+const letterSign = document.getElementById('letterSign');
+const closeBtn = document.getElementById('closeBtn');
+const progressNote = document.getElementById('progressNote');
+const letterCard = document.getElementById('letterCard');
+
+const opened = new Set();
+let lastFocusedElement = null;
+
+months.forEach((month, index) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'env-btn';
+  btn.setAttribute('aria-label', `Abrir sobre ${index + 1}: ${month.title}`);
+  btn.innerHTML = `${envelopeSVG(index + 1)}<span class="env-label">Sobre <strong>${index + 1}</strong></span>`;
+  btn.addEventListener('click', () => openLetter(index, btn));
+  envelopesWrap.appendChild(btn);
+});
+
+const envBtns = Array.from(envelopesWrap.children);
+
+function showModal(){
+  lastFocusedElement = document.activeElement;
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  closeBtn.focus();
+}
+
+function openLetter(index, button){
+  const month = months[index];
+
+  letterNum.textContent = roman[index];
+  letterTitle.textContent = month.title;
+
+  // Conserva el contenido original de las cartas.
+  const paragraph = document.createElement('p');
+  paragraph.textContent = month.text;
+  letterBody.replaceChildren(paragraph);
+
+  letterSign.textContent = 'con todo mi amor';
+  letterCard.scrollTop = 0;
+  showModal();
+
+  if(!opened.has(index)){
+    opened.add(index);
+    button.classList.add('opened');
+    button.setAttribute('aria-label', `Sobre ${index + 1} abierto: ${month.title}`);
+    progressNote.textContent = `${opened.size} de 7 sobres abiertos`;
+
+    if(opened.size === 7){
+      finalTriggerWrap.classList.add('show');
+    }
+  }
+}
+
+function openFinalLetter(){
+  if(opened.size !== months.length) return;
+
+  letterNum.textContent = '♥';
+  letterTitle.textContent = 'Para ti, mi amor';
+
+  letterBody.innerHTML = fullText
+    .map(paragraph => `<p>${paragraph}</p>`)
+    .join('');
+
+  letterSign.textContent = 'Por todos nuestros meses y los que nos faltan. Te ama, tu niño.';
+  letterCard.scrollTop = 0;
+  showModal();
+}
+
+function closeModal(){
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+
+  if(lastFocusedElement && typeof lastFocusedElement.focus === 'function'){
+    lastFocusedElement.focus();
+  }
+}
+
+finalBtn.addEventListener('click', openFinalLetter);
+closeBtn.addEventListener('click', closeModal);
+
+overlay.addEventListener('click', event => {
+  if(event.target === overlay) closeModal();
+});
+
+document.addEventListener('keydown', event => {
+  if(event.key === 'Escape' && overlay.classList.contains('show')){
+    closeModal();
+  }
+});
+</script>
+
+</body>
+</html>
